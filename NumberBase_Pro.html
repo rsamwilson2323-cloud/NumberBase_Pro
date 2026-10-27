@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NumberBase Pro | Number System Converter</title>
+<style>
+:root{--bg:#090816;--card:rgba(25,21,48,.78);--border:rgba(167,139,250,.22);--purple:#a78bfa;--pink:#e879f9;--text:#f5f3ff;--muted:#a6a0c4;--green:#86efac}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;font-family:Inter,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse at 10% 10%,#30205b 0,transparent 40%),radial-gradient(ellipse at 90% 90%,#261346 0,transparent 40%),var(--bg);color:var(--text);padding:30px 18px}
+.container{max-width:1050px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:45px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,#8b5cf6,#d946ef);font-size:23px;font-weight:900;box-shadow:0 0 28px #8b5cf644}
+.brand h2{font-size:21px;letter-spacing:-.5px}.brand p{font-size:12px;color:var(--muted);margin-top:4px}
+.badge{color:var(--green);border:1px solid #86efac35;background:#86efac0c;padding:8px 13px;border-radius:30px;font-size:12px}
+.hero{text-align:center;margin-bottom:34px}.eyebrow{display:inline-block;color:#d8b4fe;border:1px solid var(--border);background:#a78bfa0d;padding:7px 14px;border-radius:30px;font-size:12px;margin-bottom:18px}
+.hero h1{font-size:clamp(32px,6vw,56px);letter-spacing:-2px;line-height:1.12;margin-bottom:16px}
+.gradient{background:linear-gradient(90deg,#c4b5fd,#e879f9,#93c5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:570px;margin:auto;line-height:1.7;font-size:15px}
+.panel{border:1px solid var(--border);background:var(--card);backdrop-filter:blur(18px);border-radius:22px;padding:26px;box-shadow:0 20px 70px #00000020;margin-bottom:22px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.section-heading h2{font-size:18px}.section-heading span{color:var(--muted);font-size:12px}
+label{display:block;color:#d4d0e9;font-size:13px;margin-bottom:10px}
+.input-grid{display:grid;grid-template-columns:1fr 190px;gap:14px}
+input,select{width:100%;color:var(--text);background:#0c0a1b;border:1px solid #55437c;border-radius:12px;padding:15px;font-size:16px;outline:none;transition:.2s}
+input:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px #a78bfa16}select option{background:#151027}input{font-family:Consolas,monospace}
+.input-note{color:var(--muted);font-size:12px;margin-top:10px}.error{color:#fda4af;font-size:13px;margin-top:12px;min-height:17px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+button{cursor:pointer;border:none;border-radius:11px;padding:12px 17px;font-size:13px;font-weight:650;transition:transform .2s,opacity .2s,border-color .2s}
+button:hover{transform:translateY(-2px)}.primary{background:linear-gradient(110deg,#8b5cf6,#c026d3);color:white;box-shadow:0 7px 24px #9333ea25}
+.secondary{background:#ffffff08;border:1px solid var(--border);color:#e9d5ff}
+.results-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.result-card{border:1px solid var(--border);border-radius:16px;padding:19px;background:#ffffff04;min-width:0;transition:border-color .2s,background .2s}
+.result-card:hover{border-color:#a78bfa77;background:#a78bfa08}
+.result-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:18px}
+.base-label{font-size:14px;font-weight:700}.base-number{color:var(--muted);font-size:11px;margin-top:5px}
+.base-icon{width:35px;height:35px;display:grid;place-items:center;background:#a78bfa14;color:#d8b4fe;border-radius:10px;font-size:12px;font-weight:800}
+.result-value{font-family:Consolas,"Courier New",monospace;font-size:clamp(17px,3vw,25px);font-weight:700;overflow-wrap:anywhere;line-height:1.5;min-height:38px}
+.result-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:17px}.result-bottom small{color:var(--muted);font-size:11px}
+.copy-btn{color:#d8b4fe;background:#a78bfa12;border:1px solid #a78bfa25;padding:8px 11px;font-size:11px}.copy-btn:disabled{opacity:.4;cursor:not-allowed}
+.steps{line-height:1.8;color:#d0cbe6;font-size:13px;overflow-wrap:anywhere}.steps h3{color:#e9d5ff;font-size:14px;margin:20px 0 8px}.steps h3:first-child{margin-top:0}
+.steps code{color:#c4b5fd;background:#a78bfa12;padding:3px 6px;border-radius:5px;overflow-wrap:anywhere}.step-list{padding-left:22px}.step-list li{margin-bottom:7px}
+.empty{color:var(--muted);font-size:13px}.examples{display:flex;flex-wrap:wrap;gap:9px}
+.example-btn{color:#ddd6fe;background:#a78bfa0c;border:1px solid var(--border);font-family:Consolas,monospace;font-size:12px}
+footer{text-align:center;color:#77718f;font-size:12px;padding:20px 0 5px;line-height:1.8}footer strong{color:#c4b5fd}
+@media(max-width:600px){body{padding:20px 12px}header{margin-bottom:34px}.brand h2{font-size:17px}.badge{font-size:10px;padding:7px 9px}.panel{padding:18px;border-radius:17px}.input-grid,.results-grid{grid-template-columns:1fr}.hero h1{letter-spacing:-1.3px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header><div class="brand"><div class="logo">N</div><div><h2>NumberBase Pro</h2><p>Number System Converter</p></div></div><div class="badge">● Offline Ready</div></header>
+<section class="hero"><div class="eyebrow">✦ Developer Utility Tool</div><h1>Convert numbers.<br><span class="gradient">Understand everything.</span></h1><p>Convert binary, decimal, octal and hexadecimal numbers instantly. Explore every result with clear, step-by-step explanations.</p></section>
+<section class="panel">
+<div class="section-heading"><h2>⚡ Number Converter</h2><span>Live conversion</span></div>
+<div class="input-grid"><div><label for="numberInput">Enter your number</label><input id="numberInput" type="text" value="42" placeholder="Enter a number..." spellcheck="false" autocomplete="off" aria-describedby="inputNote error"></div>
+<div><label for="fromBase">Convert from</label><select id="fromBase"><option value="2">Binary (Base 2)</option><option value="8">Octal (Base 8)</option><option value="10" selected>Decimal (Base 10)</option><option value="16">Hexadecimal (Base 16)</option></select></div></div>
+<p class="input-note" id="inputNote">Valid digits: 0–9. Negative integers are supported.</p><p class="error" id="error" role="alert" aria-live="polite"></p>
+<div class="actions"><button class="primary" id="convertBtn">Convert Number ↗</button><button class="secondary" id="swapBtn">⇄ Cycle Base</button><button class="secondary" id="clearBtn">Clear</button></div>
+</section>
+<section class="panel"><div class="section-heading"><h2>▦ Conversion Results</h2><span id="resultStatus">4 number systems</span></div><div class="results-grid">
+<article class="result-card"><div class="result-top"><div><div class="base-label">Binary</div><div class="base-number">Base 2 · 0 and 1</div></div><div class="base-icon">BIN</div></div><div class="result-value" id="out2">101010</div><div class="result-bottom"><small>Base 2 output</small><button class="copy-btn" data-copy="out2">Copy</button></div></article>
+<article class="result-card"><div class="result-top"><div><div class="base-label">Octal</div><div class="base-number">Base 8 · 0 to 7</div></div><div class="base-icon">OCT</div></div><div class="result-value" id="out8">52</div><div class="result-bottom"><small>Base 8 output</small><button class="copy-btn" data-copy="out8">Copy</button></div></article>
+<article class="result-card"><div class="result-top"><div><div class="base-label">Decimal</div><div class="base-number">Base 10 · 0 to 9</div></div><div class="base-icon">DEC</div></div><div class="result-value" id="out10">42</div><div class="result-bottom"><small>Base 10 output</small><button class="copy-btn" data-copy="out10">Copy</button></div></article>
+<article class="result-card"><div class="result-top"><div><div class="base-label">Hexadecimal</div><div class="base-number">Base 16 · 0 to F</div></div><div class="base-icon">HEX</div></div><div class="result-value" id="out16">2A</div><div class="result-bottom"><small>Base 16 output</small><button class="copy-btn" data-copy="out16">Copy</button></div></article>
+</div></section>
+<section class="panel"><div class="section-heading"><h2>🧠 Step-by-Step Explanation</h2><span id="stepsStatus">Decimal → All bases</span></div><div class="steps" id="steps"><p class="empty">Conversion steps will appear here.</p></div></section>
+<section class="panel"><div class="section-heading"><h2>✧ Try an Example</h2><span>Click to load</span></div><div class="examples">
+<button class="example-btn" data-value="101010" data-base="2">Binary: 101010</button><button class="example-btn" data-value="255" data-base="10">Decimal: 255</button><button class="example-btn" data-value="77" data-base="8">Octal: 77</button><button class="example-btn" data-value="FF" data-base="16">Hex: FF</button><button class="example-btn" data-value="10110101" data-base="2">Binary: 10110101</button>
+</div></section>
+<footer>Built with <strong>HTML, CSS &amp; JavaScript</strong><br>NumberBase Pro · Accurate integer conversion · No libraries required</footer>
+</div>
+<script>
+"use strict";
+const input=document.getElementById("numberInput"),fromBase=document.getElementById("fromBase"),error=document.getElementById("error"),steps=document.getElementById("steps"),resultStatus=document.getElementById("resultStatus"),stepsStatus=document.getElementById("stepsStatus");
+const BASES=[2,8,10,16],BASE_NAMES={2:"Binary",8:"Octal",10:"Decimal",16:"Hexadecimal"},OUTPUT_IDS={2:"out2",8:"out8",10:"out10",16:"out16"};
+function parseBigIntInBase(value,base){
+ let text=value.trim().toUpperCase();if(!text)throw new Error("Please enter a number.");
+ let negative=false;if(text[0]==="-"||text[0]==="+"){negative=text[0]==="-";text=text.slice(1);}
+ if(!text)throw new Error("Enter at least one digit.");
+ const digits="0123456789ABCDEF";let result=0n;const bigBase=BigInt(base);
+ for(const char of text){const digit=digits.indexOf(char);if(digit<0||digit>=base)throw new Error(`"${char}" is not valid in ${BASE_NAMES[base]} (Base ${base}).`);result=result*bigBase+BigInt(digit);}
+ return negative?-result:result;
+}
+function formatBase(number,base){return number.toString(base).toUpperCase();}
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));}
+function positionalSteps(value,base,decimalValue){
+ const negative=value.startsWith("-"),digits=value.replace(/^[+-]/,"").toUpperCase(),digitChars="0123456789ABCDEF";
+ const terms=[...digits].map((char,index)=>{const power=digits.length-index-1,digit=digitChars.indexOf(char);return{digit,power,value:BigInt(digit)*(BigInt(base)**BigInt(power))};});
+ const equation=terms.map(t=>`${t.digit} × ${base}^${t.power}`).join(" + "),evaluated=terms.map(t=>`${t.value}`).join(" + ");
+ return `<h3>1. Interpret the input</h3><p>Input: <code>${escapeHTML(value)}</code>, interpreted in ${BASE_NAMES[base]} (Base ${base}).</p><p>Each digit is multiplied by its corresponding power of ${base}.</p><p><code>${escapeHTML(equation)}</code></p><p><code>${escapeHTML(evaluated)}</code></p><p>Decimal value: <code>${decimalValue.toString()}</code> ${negative?"(negative)":""}</p>`;
+}
+function divisionSteps(number,base){
+ if(number===0n)return `<p>Zero in ${BASE_NAMES[base]} is <code>0</code>.</p>`;
+ const rows=[];let current=number;const bigBase=BigInt(base);
+ while(current>0n){const quotient=current/bigBase,remainder=current%bigBase;rows.push({current,quotient,remainderSymbol:remainder.toString(base).toUpperCase()});current=quotient;}
+ const rowHTML=rows.map(row=>`<li><code>${row.current} ÷ ${base} = ${row.quotient}</code>, remainder <code>${row.remainderSymbol}</code></li>`).join("");
+ const answer=rows.map(row=>row.remainderSymbol).reverse().join("");
+ return `<p>Repeatedly divide the positive decimal value by ${base}.</p><ol class="step-list">${rowHTML}</ol><p>Read the remainders from bottom to top: <code>${answer}</code></p>`;
+}
+function renderSteps(rawValue,base,decimalValue){
+ const negative=decimalValue<0n,magnitude=negative?-decimalValue:decimalValue;let html=positionalSteps(rawValue,base,decimalValue);
+ html+=`<h3>2. Convert the decimal value</h3><p>Use the absolute decimal value <code>${magnitude.toString()}</code> and divide by each target base.</p>`;
+ for(const targetBase of BASES){if(targetBase===10)continue;html+=`<h3>Convert to ${BASE_NAMES[targetBase]} (Base ${targetBase})</h3>${divisionSteps(magnitude,targetBase)}<p>Final result: <code>${negative?"-":""}${formatBase(decimalValue,targetBase)}</code></p>`;}
+ html+=`<h3>3. Final results</h3><p>All four outputs represent the same integer.</p><ul class="step-list">${BASES.map(b=>`<li>${BASE_NAMES[b]}: <code>${formatBase(decimalValue,b)}</code></li>`).join("")}</ul>`;
+ steps.innerHTML=html;
+}
+function showError(message){
+ error.textContent=message;resultStatus.textContent="Invalid input";stepsStatus.textContent="Waiting for valid input";
+ for(const base of BASES)document.getElementById(OUTPUT_IDS[base]).textContent="—";
+ document.querySelectorAll("[data-copy^='out']").forEach(button=>button.disabled=true);
+ steps.innerHTML='<p class="empty">Please correct the input to see conversion steps.</p>';
+}
+function convert(){
+ const rawValue=input.value.trim(),base=Number(fromBase.value);
+ try{const decimalValue=parseBigIntInBase(rawValue,base);error.textContent="";
+ for(const targetBase of BASES)document.getElementById(OUTPUT_IDS[targetBase]).textContent=formatBase(decimalValue,targetBase);
+ document.querySelectorAll("[data-copy^='out']").forEach(button=>button.disabled=false);
+ resultStatus.textContent="Conversion successful ✓";stepsStatus.textContent=`${BASE_NAMES[base]} → All bases`;renderSteps(rawValue,base,decimalValue);
+ }catch(err){showError(err.message);}
+}
+document.getElementById("convertBtn").addEventListener("click",convert);
+input.addEventListener("input",convert);
+fromBase.addEventListener("change",()=>{updateInputHint();convert();});
+function updateInputHint(){
+ const base=Number(fromBase.value),descriptions={2:"Valid digits: 0 and 1. Negative integers are supported.",8:"Valid digits: 0–7. Negative integers are supported.",10:"Valid digits: 0–9. Negative integers are supported.",16:"Valid digits: 0–9 and A–F. Letter case does not matter."};
+ document.getElementById("inputNote").textContent=descriptions[base];
+}
+document.getElementById("swapBtn").addEventListener("click",()=>{const currentIndex=BASES.indexOf(Number(fromBase.value));fromBase.value=String(BASES[(currentIndex+1)%BASES.length]);updateInputHint();convert();});
+document.getElementById("clearBtn").addEventListener("click",()=>{input.value="";error.textContent="";input.focus();convert();});
+document.querySelectorAll(".example-btn").forEach(button=>button.addEventListener("click",()=>{input.value=button.dataset.value;fromBase.value=button.dataset.base;updateInputHint();convert();}));
+document.querySelectorAll("[data-copy]").forEach(button=>button.addEventListener("click",async()=>{
+ const output=document.getElementById(button.dataset.copy),value=output.textContent;if(button.disabled||value==="—")return;
+ try{await navigator.clipboard.writeText(value);button.textContent="Copied ✓";setTimeout(()=>button.textContent="Copy",1200);}
+ catch{const temporary=document.createElement("textarea");temporary.value=value;temporary.style.position="fixed";temporary.style.opacity="0";document.body.appendChild(temporary);temporary.select();try{const success=document.execCommand("copy");button.textContent=success?"Copied ✓":"Select manually";}catch{button.textContent="Select manually";}temporary.remove();setTimeout(()=>button.textContent="Copy",1500);}
+}));
+updateInputHint();convert();
+</script>
+</body>
+</html>
